@@ -1,0 +1,1 @@
+import './ChuckNorris/model/init';
