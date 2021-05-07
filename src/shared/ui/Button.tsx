@@ -14,14 +14,10 @@ export const Button = styled.button`
   background-color: transparent;
   border: 1px solid #809dd6;
   border-radius: 4px;
-  font-family: IBM Plex Sansy;
   font-size: 16px;
   width: 100%;
   text-decoration: none;
-  &:hover:not(:disabled)
-  //&:active:not(:disabled),
-  //&:focus
-  {
+  &:hover:not(:disabled) {
     outline: 0;
     color: black;
     border-color: black;

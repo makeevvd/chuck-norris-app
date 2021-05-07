@@ -1,4 +1,6 @@
 import { createEffect, createEvent, createStore } from 'effector';
+import { getFavouriteJokesFromLocalStorage } from '../lib/getFavouriteJokesFromLocalStorage';
+import { createGate } from 'effector-react';
 
 export type JokeType = {
   categories: any[];
@@ -8,22 +10,6 @@ export type JokeType = {
   updated_at: string;
   url: string;
   value: string;
-};
-
-// const valueInLocalStorage = window.localStorage.getItem(key);
-// if (valueInLocalStorage) {
-//   return JSON.parse(valueInLocalStorage);
-// }
-// return defaultValue instanceof Function ? defaultValue() : defaultValue;
-// });
-
-const getFavouriteJokesFromLocalStorage = () => {
-  debugger;
-  const valueInLocalStorage = window.localStorage.getItem('favouriteJokes');
-  if (valueInLocalStorage) {
-    return JSON.parse(valueInLocalStorage);
-  }
-  return [];
 };
 
 export const $jokeToDisplay = createStore<JokeType | null>(null);
@@ -45,3 +31,5 @@ export const $isTimerRunning = createStore(false);
 export const clearFavouriteJokesButtonClicked = createEvent();
 
 export const favouriteButtonClicked = createEvent<JokeType>();
+
+export const MainPageGate = createGate();

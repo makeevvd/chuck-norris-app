@@ -4,6 +4,7 @@ import {
   $jokeToDisplay,
   clearFavouriteJokesButtonClicked,
   favouriteButtonClicked,
+  MainPageGate,
   requestJokeButtonClicked,
   requestJokeWithIntervalButtonClicked,
   requestRandomJokeFx,
@@ -19,19 +20,6 @@ forward({
   from: requestJokeButtonClicked,
   to: requestRandomJokeFx,
 });
-
-// split({
-//   source: requestJokeWithIntervalButtonClicked,
-//   match: {
-//     text: msg => msg.type === 'text',
-//     audio: msg => msg.type === 'audio',
-//   },
-//   cases: {
-//     text: showTextPopup,
-//     audio: playAudio,
-//     __: reportUnknownMessageType,
-//   },
-// })
 
 const timerAndJoke = sample({
   clock: requestJokeWithIntervalButtonClicked,
@@ -61,18 +49,16 @@ forward({
 
 $jokeToDisplay.on(requestRandomJokeFx.doneData, (_, joke) => joke);
 
-$isTimerRunning.on(timerTurnedOn, () => true).reset(timerTurnedOff);
-
-// $jokeToDisplay.on(requestJokeWithIntervalButtonClicked, (_, joke) => joke);
+$isTimerRunning.on(timerTurnedOn, () => true).reset(timerTurnedOff, MainPageGate.close);
 
 $favouriteJokes.on(favouriteButtonClicked, (favouriteJokes, joke) => {
-  const isJokeFavourited = favouriteJokes.some(el => el.id === joke.id);
+  const isJokeFavourite = favouriteJokes.some(el => el.id === joke.id);
 
-  if (isJokeFavourited) return favouriteJokes.filter(el => el.id !== joke.id);
+  if (isJokeFavourite) return favouriteJokes.filter(el => el.id !== joke.id);
 
   if (favouriteJokes.length < 10) return [...favouriteJokes, joke];
 
-  const [firstJoke, ...otherJokes] = favouriteJokes;
+  const [, ...otherJokes] = favouriteJokes;
 
   return [...otherJokes, joke];
 });

@@ -10,16 +10,14 @@ export const FavouriteJokes = () => {
 
   const favouriteJokesElems = favouriteJokes.map(joke => <JokeCard joke={joke} />);
 
+  const clearButtonHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    clearFavouriteJokesButtonClicked();
+  };
+
   return (
     <FavouriteContainer>
-      {/*<FavouriteTitle>Favourite Jokes</FavouriteTitle>*/}
-      <ClearButton
-        disabled={favouriteJokes.length === 0}
-        onClick={e => {
-          e.preventDefault();
-          clearFavouriteJokesButtonClicked();
-        }}
-      >
+      <ClearButton disabled={favouriteJokes.length === 0} onClick={clearButtonHandler}>
         Clear favourite jokes list
       </ClearButton>
       {favouriteJokesElems.length ? (
@@ -30,10 +28,6 @@ export const FavouriteJokes = () => {
     </FavouriteContainer>
   );
 };
-
-const FavouriteTitle = styled.h1`
-  font-size: 20px;
-`;
 
 const FavouriteContainer = styled.div`
   display: flex;
@@ -48,6 +42,11 @@ const JokesContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   row-gap: 48px;
+
+  @media (max-width: 1000px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ClearButton = styled(Button)`
